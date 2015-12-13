@@ -25,53 +25,149 @@ var manifest = {
 	"fonts": {
 	},
 	"animations": {
-		"beetle-blue" : {
+		"bg-1" : {
+			"strip" : "assets/images/Background_beetle_level.png",
+			"frames" : 1,
+			"msPerFrame" : 100
+		},
+		"bg-2" : {
+			"strip" : "assets/images/Background_rat_level.png",
+			"frames" : 1,
+			"msPerFrame" : 100
+		},
+		"bg-3" : {
+			"strip" : "assets/images/Background_sheep_level.png",
+			"frames" : 1,
+			"msPerFrame" : 100
+		},
+		"bg-4" : {
+			"strip" : "assets/images/Background_pony_level.png",
+			"frames" : 1,
+			"msPerFrame" : 100
+		},
+		"bg-5" : {
+			"strip" : "assets/images/Background_largest.png",
+			"frames" : 1,
+			"msPerFrame" : 100
+		},
+		"beetle-blue-right" : {
 			"strip" : "assets/images/Blue_Beetle.png",
 			"frames" : 2,
 			"msPerFrame" : 100
 		},
-		"pony-blue" : {
+		"beetle-blue-left" : {
+			"strip" : "assets/images/Blue_Beetle.png",
+			"frames" : 2,
+			"msPerFrame" : 100,
+			"flip": "horizontal"
+		},
+		"beetle-red-right" : {
+			"strip" : "assets/images/Red_Beetle_walk.png",
+			"frames" : 2,
+			"msPerFrame" : 100
+		},
+		"beetle-red-left" : {
+			"strip" : "assets/images/Red_Beetle_walk.png",
+			"frames" : 2,
+			"msPerFrame" : 100,
+			"flip" : "horizontal"
+		},
+		"pony-blue-right" : {
 			"strip" : "assets/images/Blue_pony_animation.png",
 			"frames" : 2,
-			"msPerFrame" : 100
+			"msPerFrame" : 200
 		},
-		"pony-red" : {
+		"pony-blue-left" : {
+			"strip" : "assets/images/Blue_pony_animation.png",
+			"frames" : 2,
+			"msPerFrame" : 200,
+			"flip": "horizontal"
+		},
+		"pony-red-right" : {
 			"strip" : "assets/images/Red_pony_animation.png",
 			"frames" : 2,
-			"msPerFrame" : 100
+			"msPerFrame" : 200
 		},
-		"elephant-blue" : {
+		"pony-red-left" : {
+			"strip" : "assets/images/Red_pony_animation.png",
+			"frames" : 2,
+			"msPerFrame" : 200,
+			"flip": "horizontal"
+		},
+
+		"elephant-blue-right" : {
 			"strip" : "assets/images/Blue_Running_Elephant_animation.png",
 			"frames" : 2,
 			"msPerFrame" : 100
 		},
-		"elephant-red" :{
+		"elephant-blue-left" : {
+			"strip" : "assets/images/Blue_Running_Elephant_animation.png",
+			"frames" : 2,
+			"msPerFrame" : 100,
+			"flip": "horizontal"
+		},
+		"elephant-red-right" :{
 			"strip" : "assets/images/Red_Running_Elephant_animation.png",
 			"frames" : 2,
 			"msPerFrame" : 100
 		},
-		"rat-blue":{
+		"elephant-red-left" :{
+			"strip" : "assets/images/Red_Running_Elephant_animation.png",
+			"frames" : 2,
+			"msPerFrame" : 100,
+			"flip": "horizontal"
+		},
+		"rat-blue-right":{
 			"strip" : "assets/images/Blue_Running_Rat_animation.png",
-			"frame" : 2,
+			"frames" : 2,
 			"msPerFrame" : 100
 		},
-		"rat-red":{
+		"rat-blue-left":{
+			"strip" : "assets/images/Blue_Running_Rat_animation.png",
+			"frames" : 2,
+			"msPerFrame" : 100,
+			"flip": "horizontal"
+		},
+		"rat-red-right":{
 			"strip" : "assets/images/Red_Running_Rat_animation.png",
-			"frame" : 2,
+			"frames" : 2,
 			"msPerFrame" : 100
 		},
-		"sheep-blue":{
+		"rat-red-left":{
+			"strip" : "assets/images/Red_Running_Rat_animation.png",
+			"frames" : 2,
+			"msPerFrame" : 100,
+			"flip": "horizontal"
+		},
+		"sheep-blue-right":{
 			"strip" : "assets/images/Blue_Running_Sheep.png",
-			"frame" : 2,
+			"frames" : 2,
 			"msPerFrame" : 100
 		},
-		"sheep-red":{
+		"sheep-blue-left":{
+			"strip" : "assets/images/Blue_Running_Sheep.png",
+			"frames" : 2,
+			"msPerFrame" : 100,
+			"flip": "horizontal"
+		},
+		"sheep-red-right":{
 			"strip" : "assets/images/Red_Running_Sheep.png",
-			"frame" : 2,
+			"frames" : 2,
 			"msPerFrame" : 100
+		},
+		"sheep-red-left":{
+			"strip" : "assets/images/Red_Running_Sheep.png",
+			"frames" : 2,
+			"msPerFrame" : 100,
+			"flip": "horizontal"
 		},
 		"chicken-body-idle" : {
 			"strip" : "assets/images/Hydra_Chicken_body_animation.png",
+			"frames" : 3,
+			"msPerFrame" : 150
+		},
+		"chicken-body-idle-big" : {
+			"strip" : "assets/images/Hydra_Chicken_body_animation_big.png",
 			"frames" : 3,
 			"msPerFrame" : 150
 		},
@@ -81,7 +177,7 @@ var manifest = {
 			"msPerFrame" : 150
 		},
 		"chicken-left-attack" :{
-			"strip" : "assets/images/Blue_Head_attack_Animation.png",
+			"strip" : "assets/images/Red_Head_attack_Animation.png",
 			"frames" : 6,
 			"msPerFrame" : 100
 		},
@@ -91,7 +187,7 @@ var manifest = {
 			"msPerFrame" : 150
 		},
 		"chicken-right-attack" : {
-			"strip" : "assets/images/Red_Head_attack_Animation.png",
+			"strip" : "assets/images/Blue_Head_attack_Animation.png",
 			"frames" : 6,
 			"msPerFrame" : 100
 		}
@@ -106,14 +202,27 @@ function randomColor(){
 }
 
 function drawEnemy(context, drawable, color, debug){
-	if(debug){
+	
+		if(drawable.type === "animated"){
+			drawable.draw(context);
+		}
+		else{
+			context.fillStyle = color;
+			context.fillRect(drawable.x, drawable.y, drawable.width, drawable.height);
+		}
+		if(debug){
 		context.strokeRect(drawable.x, drawable.y, drawable.width, drawable.height);
 	}
-	else{
-		context.fillStyle = color;
-		context.fillRect(drawable.x, drawable.y, drawable.width, drawable.height);
-	}
 }
+
+// function drawAnimatedEnemy(context, drawable, debug){
+// 	if(debug){
+// 		context.strokeRect(drawable.x, drawable.y, drawable.width, drawable.height);
+// 	}
+// 	else{
+// 		drawable.draw(context);
+// 	}
+// }
 
 
 // function drawEntity(context, drawable, debug){
@@ -127,13 +236,10 @@ function drawEnemy(context, drawable, color, debug){
 // }
 
 function drawAnimatedEntity(context, drawable, debug){
+	drawable.draw(context);
 	if(debug){
 		context.strokeRect(drawable.x, drawable.y, drawable.width, drawable.height);
 	}
-	else{
-		drawable.draw(context);
-	}
-	
 }
 
 function generateScoreManager(){
@@ -174,6 +280,7 @@ var devour = function(enemy, manager){
 	console.log(manager);
 };
 
+
 game.scenes.add("title", new Splat.Scene(canvas, function() {
 	// initialization
 	var scene = this;
@@ -182,12 +289,70 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 	scene.enemies = [];
 	scene.animatedEntities = [];
 	scene.score = generateScoreManager();
+	scene.stages = ["beetle", "rat", "sheep" , "pony", "elephant"];
+	scene.currentStage = 0;
+	scene.stage = "beetle";
+	scene.incrementStage = function (currentStage){
+		scene.stage = scene.stages[currentStage];
+	};
+	scene.enemyAnimations = {
+		"pony-left" : {
+			"offx" : -75,
+			"offy" : -75
+		},
+		"pony-right" : {
+			"offx" : -75,
+			"offy" : -75
+		},
+		"beetle-right" : {
+			"offx" : -50,
+			"offy" : -50
+		},
+		"beetle-left" : {
+			"offx" : -100,
+			"offy" : -50
+		},
+		"rat-left" : {
+			"offx" : -50,
+			"offy" : -25
+		},
+		"rat-right" : {
+			"offx" : -125,
+			"offy" : -25
+		},
+		"sheep-left" : {
+			"offx" : -100,
+			"offy" : -50
+		},
+		"sheep-right" : {
+			"offx" : -100,
+			"offy" : -50
+		},
+		"elephant-left" : {
+			"offx" : -100,
+			"offy" : -75
+		},
+		"elephant-right" : {
+			"offx" : -100,
+			"offy" : -75
+		}
+	};
+
+	scene.setStage = function (){
+		scene.stage = scene.stages[Math.floor(Math.random() * scene.stages.length)];
+		scene.leftSpawner.state = scene.stage;
+		scene.rightSpawner.state = scene.stage;
+	};
+	var bg = game.animations.get("bg-1");
+	scene.bgimage = new Splat.AnimatedEntity(0,0, canvas.width, canvas.height, bg, 0, 0);
+	scene.animatedEntities.push(scene.bgimage);
+
 	scene.leftSpawner = new Splat.Entity(-10, canvas.height-100, 20,20);
 	scene.leftSpawner.direction = 1;
-	scene.leftSpawner.state = "idle";
+	scene.leftSpawner.state = scene.stage;
 	scene.rightSpawner = new Splat.Entity(canvas.width + 10, canvas.height-100, 20, 20);
 	scene.rightSpawner.direction = -1;
-	scene.rightSpawner.state = "idle";
+	scene.rightSpawner.state = scene.stage;
 	scene.leftKills = 0;
 	scene.rightKills = 0;
 	scene.totalKills = 0;
@@ -200,6 +365,24 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		scene.enemies.push(enemy);
 	};
 
+	scene.spawnAnimated = function (spawner) {
+		var enemyType = scene.stage;
+		var direction = "right";
+		var color = randomColor();
+		if(spawner.direction === -1){
+			direction = "left";
+		}
+
+		var sprite = game.animations.get(enemyType +"-"+ color +"-"+ direction);
+		console.log(sprite, enemyType +"-"+ color +"-"+ direction);
+		var offsets = scene.enemyAnimations[enemyType+"-"+direction];
+		var enemy = new Splat.AnimatedEntity(spawner.x, spawner.y, 30, 30, sprite.copy(), offsets.offx, offsets.offy);
+		enemy.color = color;
+		enemy.type = "animated";
+		enemy.direction = spawner.direction;
+		scene.enemies.push(enemy);
+	};
+
 	scene.randomSpawner = function(){
 		var spawners = [scene.leftSpawner,scene.rightSpawner];
 		return spawners[Math.floor(Math.random() * spawners.length)];
@@ -209,35 +392,133 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 	var rightHeadIdle = game.animations.get("chicken-right-idle");
 	var rightHeadAttack = game.animations.get("chicken-right-attack");
 	var chickenBody = game.animations.get("chicken-body-idle");
-	scene.leftHeadAttack = new Splat.AnimatedEntity(canvas.width/2 - 100, canvas.height-100, 100, 20, leftHeadIdle, -50, -450);
+	var chickenBodyBig = game.animations.get("chicken-body-idle-big");
+	scene.leftHeadAttack = new Splat.AnimatedEntity(canvas.width/2 - 175, canvas.height-100, 100, 20, leftHeadIdle, 0, -400);
 
 	scene.leftHeadAttack.name = "left";
 	scene.leftHeadAttack.devour = devour;
-	scene.leftHeadAttack.animations = {"idle": leftHeadIdle,
-									   "attack": leftHeadAttack};
+	scene.leftHeadAttack.animations = {"idle": {
+											"image" : leftHeadIdle,
+											"offx" : 0,
+											"offy" : -400},
+										"idleBig" : {
+											"image" : leftHeadIdle,
+											"offx" : 0,
+											"offy" : -425
+										},
+									   "attack": {
+									   		"image" :leftHeadAttack,
+									   		"offx" : -50,
+									   		"offy" : -400}
+									   	};
 	scene.leftHeadAttack.attack = function (){
-		
+		this.sprite = this.animations.attack.image;
+		this.spriteOffsetX = this.animations.attack.offx;
+		this.spriteOffsetY = this.animations.attack.offy;
+	};
+	scene.leftHeadAttack.idle = function (){
+		this.sprite = this.animations.idle.image;
+		this.spriteOffsetX = this.animations.idle.offx;
+		this.spriteOffsetY = this.animations.idle.offy;
+	};
+	scene.leftHeadAttack.idleBig = function (){
+		console.log("fire");
+		this.sprite = this.animations.idleBig.image;
+		this.spriteOffsetX = this.animations.idleBig.offx;
+		this.spriteOffsetY = this.animations.idleBig.offy;	
 	};
 	
-	scene.rightHeadAttack = new Splat.AnimatedEntity(canvas.width/2 + 100, canvas.height-100, 100, 20, rightHeadIdle, -50 , -450);
-	//scene.rightHeadAttack.color ="white";
+	scene.rightHeadAttack = new Splat.AnimatedEntity(canvas.width/2 + 50, canvas.height-100, 100, 20, rightHeadIdle, -50 , -400);
 	scene.rightHeadAttack.name = "right";
 	scene.rightHeadAttack.devour = devour;
-	scene.rightHeadAttack.animations = {"idle": rightHeadIdle, 
-										"attack": rightHeadAttack};
+	scene.rightHeadAttack.animations = {"idle": {
+											"image" :rightHeadIdle,
+											"offx" : -50,
+											"offy" : -400 },
+										"idleBig" : {
+											"image" :rightHeadIdle,
+											"offx" : -50,
+											"offy" : -425
+										},
+										"attack": {
+											"image" : rightHeadAttack,
+											"offx" : -50,
+											"offy" : -400}
+										};
+	scene.rightHeadAttack.attack = function (){
+		this.sprite = this.animations.attack.image;
+		this.spriteOffsetX = this.animations.attack.offx;
+		this.spriteOffsetY = this.animations.attack.offy;
+	};
+	scene.rightHeadAttack.idle = function (){
+		this.sprite = this.animations.idle.image;
+		this.spriteOffsetX = this.animations.idle.offx;
+		this.spriteOffsetY = this.animations.idle.offy;
+	};
+	scene.rightHeadAttack.idleBig = function (){
+		this.sprite = this.animations.idleBig.image;
+		this.spriteOffsetX = this.animations.idleBig.offx;
+		this.spriteOffsetY = this.animations.idleBig.offy;	
+	};
 
 	scene.chickenBody = new Splat.AnimatedEntity(canvas.width/2, canvas.height-100, 100, 20, chickenBody, -300, -250);
+	scene.chickenBody.animations = {"normal" : {
+										"image" : chickenBody,
+										"offx" : -300,
+										"offy" : -250 },
+									"big" : {
+										"image" : chickenBodyBig,
+										"offx" : -350,
+										"offy" : -275}
+									};
+	scene.chickenBody.state = "small";
+	scene.chickenBody.morph = function (){
+		this.sprite = this.animations.big.image;
+		this.spriteOffsetX = this.animations.big.offx;
+		this.spriteOffsetY = this.animations.big.offy;
+		this.state="big";
+		scene.leftHeadAttack.spriteOffsetX = scene.leftHeadAttack.animations.idleBig.offx;
+		scene.leftHeadAttack.spriteOffsetY = scene.leftHeadAttack.animations.idleBig.offy;
+		scene.rightHeadAttack.spriteOffsetX = scene.rightHeadAttack.animations.idleBig.offx;
+		scene.rightHeadAttack.spriteOffsetY = scene.rightHeadAttack.animations.idleBig.offy;
 
+
+	};
+
+	scene.animatedEntities.push(scene.chickenBody);
 	scene.animatedEntities.push(scene.leftHeadAttack);
 	scene.animatedEntities.push(scene.rightHeadAttack);
-	scene.animatedEntities.push(scene.chickenBody);
 
+	//TIMERS!!!!
+	var attackTimerLeft = new Splat.Timer(null, 600, function(){
+		if(scene.chickenBody.state === "small"){
+			scene.leftHeadAttack.idle();
+		}
+		if(scene.chickenBody.state === "big"){
+			scene.leftHeadAttack.idleBig();
+		}
+		this.reset();
+	});
 
+	var attackTimerRight = new Splat.Timer(null, 600, function(){
+		if(scene.chickenBody.state === "small"){
+			scene.rightHeadAttack.idle();
+		}
+		if(scene.chickenBody.state === "big"){
+			scene.rightHeadAttack.idleBig();
+		}
+		this.reset();
+	});
+
+	scene.timers.leftAttack = attackTimerLeft;
+	scene.timers.rightAttack = attackTimerRight;
 
 }, function(ellapsedMillis) {
 	// simulation
 	var scene = this;
 
+
+//Developer functions
 	if (game.keyboard.isPressed("1")){
 		if (scene.debug === true){
 			scene.debug = false;
@@ -246,9 +527,31 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		}
 	}
 
+	if (game.keyboard.consumePressed("q")){
+		var spawner = scene.randomSpawner();
+		//scene.spawn(spawner);
+		scene.spawnAnimated(spawner);
+	}
+
+	if (game.keyboard.consumePressed("2")){
+		scene.incrementStage(scene.currentStage);
+		scene.currentStage ++;
+		if(scene.currentStage === scene.stages.length){
+			scene.currentStage = 0;
+		}
+	}
+
+	if (game.keyboard.consumePressed("3")){
+		scene.chickenBody.morph();
+	}
+
+// end developer functions
+
 	if (game.keyboard.isPressed("w")){
 		scene.leftHeadAttack.color = "green";
 		scene.leftHeadAttack.state = "attack";
+		scene.leftHeadAttack.attack();
+		scene.timers.leftAttack.start();
 	}
 	else{
 		scene.leftHeadAttack.color = "red";
@@ -258,17 +561,14 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 	if (game.keyboard.isPressed("e")){
 		scene.rightHeadAttack.color = "green";
 		scene.rightHeadAttack.state = "attack";
-
+		scene.rightHeadAttack.attack();
+		scene.timers.rightAttack.start();
 	}
 	else{
 		scene.rightHeadAttack.color = "blue";
 		scene.rightHeadAttack.state = "idle";
 	}
 
-	if (game.keyboard.consumePressed("q")){
-		var spawner = scene.randomSpawner();
-		scene.spawn(spawner);
-	}
 
 	//enemy management
 	for(var x = 0; x < scene.enemies.length; x++){
@@ -285,7 +585,8 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		//left
 		if(scene.enemies[x] && 
 			((scene.enemies[x].collides(scene.leftHeadAttack) &&
-		      scene.leftHeadAttack.state==="attack"))) {
+		      scene.leftHeadAttack.state==="attack" && 
+		      scene.leftHeadAttack.sprite.frame === 1))) {
 			
 			//register a devour and note which color eaten
 			scene.leftHeadAttack.devour(scene.enemies[x], scene.score);
@@ -294,8 +595,9 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 
 		//right
 		if(scene.enemies[x] && 
-			(scene.enemies[x].collides(scene.rightHeadAttack) && 
-			scene.rightHeadAttack.state==="attack")){
+			((scene.enemies[x].collides(scene.rightHeadAttack) && 
+			  scene.rightHeadAttack.state==="attack" &&
+			  scene.rightHeadAttack.sprite.frame === 1))){
 
 			scene.rightHeadAttack.devour(scene.enemies[x], scene.score);
 			scene.enemies.splice(x,1);
@@ -306,21 +608,32 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 	for(x = 0 ; x < scene.animatedEntities.length; x++){
 		scene.animatedEntities[x].move(ellapsedMillis);
 	}
+	for(x = 0 ; x < scene.enemies.length; x++){
+		scene.enemies[x].move(ellapsedMillis);
+	}
+
+	//sync animations
+	if (scene.chickenBody.sprite.frame === 0){
+		if(scene.leftHeadAttack.sprite.name === "chicken-left-idle"){
+			scene.leftHeadAttack.sprite.frame = 0;
+		}
+		if(scene.rightHeadAttack.sprite.name === "chicken-right-idle"){
+			scene.rightHeadAttack.sprite.frame = 0;
+		}
+	}
 
 }, function(context) {
 	// draw
 	var scene = this;
 	context.fillStyle = "#fff";
 	context.fillRect(0, 0, canvas.width, canvas.height);
-
-	for(var x = 0; x < scene.enemies.length;  x++){
-		drawEnemy(context, scene.enemies[x], scene.enemies[x].color);
-	}
-
 	
 	//drawEntity(context, scene.rightHeadAttack, scene.debug);
-	for(x = 0 ; x < scene.animatedEntities.length; x++){
+	for(var x = 0 ; x < scene.animatedEntities.length; x++){
 		drawAnimatedEntity(context, scene.animatedEntities[x], scene.debug);
+	}
+	for(x = 0; x < scene.enemies.length;  x++){
+		drawEnemy(context, scene.enemies[x], scene.enemies[x].color, scene.debug);
 	}
 
 }));

@@ -1,5 +1,5 @@
 {
-	"name": "Hungry Hungry Hydra Chicken",
+	"name": "HungryHungryHydraChicken",
 	"version": "0.0.0",
 	"description": "Ludum Dare 34 2 buttons / growth",
 	"main": "index.js",
@@ -37,6 +37,7 @@
 		"browser": true,
 		"devel": true,
 		"globalstrict": true,
+		"sub": true,
 		"globals": {
 			"module": false,
 			"require": false
