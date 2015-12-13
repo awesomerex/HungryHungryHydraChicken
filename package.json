@@ -17,7 +17,6 @@
 		"build": "npm run lint-js && npm run build-js"
 	},
 	"author": "Rex Soriano",
-	"license": "MIT",
 	"jshintConfig": {
 		"camelcase": true,
 		"curly": true,
