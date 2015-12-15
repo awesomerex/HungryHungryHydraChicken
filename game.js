@@ -464,29 +464,29 @@ game.scenes.add("main", new Splat.Scene(canvas, function() {
 		var spawners = [scene.leftSpawner,scene.rightSpawner];
 		return spawners[Math.floor(Math.random() * spawners.length)];
 	};
-	var leftHeadIdle = game.animations.get("chicken-left-idle");
-	var leftHeadAttack = game.animations.get("chicken-left-attack");
-	var rightHeadIdle = game.animations.get("chicken-right-idle");
-	var rightHeadAttack = game.animations.get("chicken-right-attack");
-	var chickenBody = game.animations.get("chicken-body-idle");
-	var chickenBodyBig = game.animations.get("chicken-body-idle-big");
-	scene.leftHeadAttack = new Splat.AnimatedEntity(canvas.width/2 - 175, canvas.height-100, 100, 20, leftHeadIdle, 0, -400);
+	// var leftHeadIdle = ;
+	// var leftHeadAttack = ;
+	// var rightHeadIdle = ;
+	// var rightHeadAttack = ;
+	// var chickenBody = ;
+	// var chickenBodyBig = ;
+	scene.leftHeadAttack = new Splat.AnimatedEntity(canvas.width/2 - 175, canvas.height-100, 100, 20, game.animations.get("chicken-left-idle"), 0, -400);
 
 	scene.leftHeadAttack.name = "left";
 	scene.leftHeadAttack.state = "idle";
 	scene.leftHeadAttack.devour = devour;
 	scene.leftHeadAttack.canAttack = true;
 	scene.leftHeadAttack.animations = {"idle": {
-											"image" : leftHeadIdle,
+											"image" : game.animations.get("chicken-left-idle"),
 											"offx" : 0,
 											"offy" : -400},
 										"idleBig" : {
-											"image" : leftHeadIdle,
+											"image" : game.animations.get("chicken-left-idle"),
 											"offx" : 0,
 											"offy" : -425
 										},
 									   "attack": {
-									   		"image" :leftHeadAttack,
+									   		"image" :game.animations.get("chicken-left-attack"),
 									   		"offx" : -50,
 									   		"offy" : -400}
 									   	};
@@ -510,22 +510,22 @@ game.scenes.add("main", new Splat.Scene(canvas, function() {
 		this.spriteOffsetY = this.animations.idleBig.offy;	
 	};
 	
-	scene.rightHeadAttack = new Splat.AnimatedEntity(canvas.width/2 + 50, canvas.height-100, 100, 20, rightHeadIdle, -50 , -400);
+	scene.rightHeadAttack = new Splat.AnimatedEntity(canvas.width/2 + 50, canvas.height-100, 100, 20, game.animations.get("chicken-right-idle"), -50 , -400);
 	scene.rightHeadAttack.name = "right";
 	scene.rightHeadAttack.state = "idle";
 	scene.rightHeadAttack.devour = devour;
 	scene.rightHeadAttack.canAttack = true;
 	scene.rightHeadAttack.animations = {"idle": {
-											"image" :rightHeadIdle,
+											"image" :game.animations.get("chicken-right-idle"),
 											"offx" : -50,
 											"offy" : -400 },
 										"idleBig" : {
-											"image" :rightHeadIdle,
+											"image" :game.animations.get("chicken-right-idle"),
 											"offx" : -50,
 											"offy" : -425
 										},
 										"attack": {
-											"image" : rightHeadAttack,
+											"image" : game.animations.get("chicken-right-attack"),
 											"offx" : -50,
 											"offy" : -400}
 										};
@@ -549,13 +549,13 @@ game.scenes.add("main", new Splat.Scene(canvas, function() {
 		this.spriteOffsetY = this.animations.idleBig.offy;	
 	};
 
-	scene.chickenBody = new Splat.AnimatedEntity(canvas.width/2, canvas.height-100, 100, 20, chickenBody, -300, -250);
+	scene.chickenBody = new Splat.AnimatedEntity(canvas.width/2, canvas.height-100, 100, 20, game.animations.get("chicken-body-idle"), -300, -250);
 	scene.chickenBody.animations = {"normal" : {
-										"image" : chickenBody,
+										"image" : game.animations.get("chicken-body-idle"),
 										"offx" : -300,
 										"offy" : -250 },
 									"big" : {
-										"image" : chickenBodyBig,
+										"image" : game.animations.get("chicken-body-idle-big"),
 										"offx" : -350,
 										"offy" : -275}
 									};
