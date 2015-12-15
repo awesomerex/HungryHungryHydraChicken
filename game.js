@@ -475,6 +475,7 @@ game.scenes.add("main", new Splat.Scene(canvas, function() {
 	scene.leftHeadAttack.name = "left";
 	scene.leftHeadAttack.state = "idle";
 	scene.leftHeadAttack.devour = devour;
+	scene.leftHeadAttack.canAttack = true;
 	scene.leftHeadAttack.animations = {"idle": {
 											"image" : leftHeadIdle,
 											"offx" : 0,
@@ -513,6 +514,7 @@ game.scenes.add("main", new Splat.Scene(canvas, function() {
 	scene.rightHeadAttack.name = "right";
 	scene.rightHeadAttack.state = "idle";
 	scene.rightHeadAttack.devour = devour;
+	scene.rightHeadAttack.canAttack = true;
 	scene.rightHeadAttack.animations = {"idle": {
 											"image" :rightHeadIdle,
 											"offx" : -50,
@@ -666,6 +668,10 @@ game.scenes.add("main", new Splat.Scene(canvas, function() {
 		scene.init = 1;
 		scene.timers.spawnTimer.start();
 		game.sounds.play("bgm1",true);
+		scene.leftHeadAttack.canAttack = true;
+		scene.leftHeadAttack.notEating = true;
+		scene.rightHeadAttack.canAttack = true;
+		scene.rightHeadAttack.notEating = true;
 	}
 
 	if(game.time.minute === 0 && game.time.second1 === 0 && game.time.second2 ===0){
@@ -697,14 +703,14 @@ game.scenes.add("main", new Splat.Scene(canvas, function() {
 
 // end developer functions
 
-	if (game.keyboard.consumePressed("w")){
+	if (game.keyboard.consumePressed("f")){
 		scene.leftHeadAttack.color = "green";
 		scene.leftHeadAttack.attack();
 		scene.timers.leftAttack.start();
 		scene.timers.peckSoundTimer.start();
 	}
 
-	if (game.keyboard.consumePressed("e")){
+	if (game.keyboard.consumePressed("j")){
 		scene.rightHeadAttack.color = "green";
 		scene.rightHeadAttack.attack();
 		scene.timers.rightAttack.start();
@@ -729,9 +735,11 @@ game.scenes.add("main", new Splat.Scene(canvas, function() {
 		      scene.leftHeadAttack.state==="attack" && 
 		      scene.leftHeadAttack.sprite.frame === 1))) {
 			
-
-			scene.leftHeadAttack.devour(scene.enemies[x], game.score, scene);
-			scene.enemies.splice(x,1);
+			if(scene.leftHeadAttack.notEating){
+				scene.leftHeadAttack.notEating = false;
+				scene.leftHeadAttack.devour(scene.enemies[x], game.score, scene);
+				scene.enemies.splice(x,1);
+			}
 		}	
 
 		//right
@@ -739,9 +747,11 @@ game.scenes.add("main", new Splat.Scene(canvas, function() {
 			((scene.enemies[x].collides(scene.rightHeadAttack) && 
 			  scene.rightHeadAttack.state==="attack" &&
 			  scene.rightHeadAttack.sprite.frame === 1))){
-
-			scene.rightHeadAttack.devour(scene.enemies[x], game.score, scene);
-			scene.enemies.splice(x,1);
+			if(scene.rightHeadAttack.notEating){
+				scene.rightHeadAttack.notEating = false;
+				scene.rightHeadAttack.devour(scene.enemies[x], game.score, scene);
+				scene.enemies.splice(x,1);
+			}
 		}
 	}
 
@@ -760,6 +770,25 @@ game.scenes.add("main", new Splat.Scene(canvas, function() {
 		}
 		if(scene.rightHeadAttack.sprite.name === "chicken-right-idle"){
 			scene.rightHeadAttack.sprite.frame = 0;
+		}
+	}
+	if (scene.rightHeadAttack.sprite.name === "chicken-right-attack"){
+		if(scene.rightHeadAttack.sprite.frame === 2){
+			scene.rightHeadAttack.canAttack = false;
+		}
+		if(scene.rightHeadAttack.sprite.frame === 5){
+			scene.rightHeadAttack.canAttack = true;
+			scene.rightHeadAttack.notEating = true;
+		}
+	}
+
+	if (scene.leftHeadAttack.sprite.name === "chicken-left-attack"){
+		if(scene.leftHeadAttack.sprite.frame === 2){
+			scene.leftHeadAttack.canAttack = false;
+		}
+		if(scene.leftHeadAttack.sprite.frame === 5){
+			scene.leftHeadAttack.canAttack = true;
+			scene.leftHeadAttack.notEating = true;
 		}
 	}
 
@@ -801,11 +830,11 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		game.sounds.play("bgm2", true);
 		scene.init = 1;
 	}
-	if(game.keyboard.consumePressed("w")){
+	if(game.keyboard.consumePressed("f")){
 		game.scenes.switchTo("main");
 		game.sounds.stop("bgm2");
 	}
-	if(game.keyboard.consumePressed("e")){
+	if(game.keyboard.consumePressed("j")){
 		game.scenes.switchTo("main");
 		game.sounds.stop("bgm2");
 	}
@@ -817,8 +846,8 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 	context.fillStyle = "#f00";
   	context.font = "bold 30px Courier";
   	context.fillText("Controls:", canvas.width - 300, 80);
-  	context.fillText("W - Left Head", canvas.width - 300, 112);
-  	context.fillText("E - Right Head", canvas.width - 300, 144);
+  	context.fillText("F - Left Head", canvas.width - 300, 112);
+  	context.fillText("J - Right Head", canvas.width - 300, 144);
 }));
 
 
@@ -843,10 +872,10 @@ game.scenes.add("credits", new Splat.Scene(canvas, function(){
 
 }, function (){
 	//simulation
-	if(game.keyboard.consumePressed("w")){
+	if(game.keyboard.consumePressed("f")){
 		game.scenes.switchTo("title");
 	}
-	if(game.keyboard.consumePressed("e")){
+	if(game.keyboard.consumePressed("j")){
 		game.scenes.switchTo("title");
 	}
 
