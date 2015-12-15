@@ -14,7 +14,8 @@ var manifest = {
 		"attack5" : "assets/sounds/attack_voice5.wav",
 		"attack6" : "assets/sounds/attack_voice6.wav",
 		"bgm1" : "assets/sounds/Tale_of_the_Hydra_Chicken.wav",
-		"bug-scuttle" : "assets/sounds/Bug_scuttle.wav",
+		"bgm2" : "assets/sounds/Tale_of_the_Hydra_Chicken_opening_screen_version.wav",
+		"beetle" : "assets/sounds/Bug_scuttle.wav",
 		"elephant" : "assets/sounds/Elephant_stampede.wav",
 		"grow_cluck" : "assets/sounds/Grow_time_cluck.wav",
 		"grow_sound" : "assets/sounds/Grow_time_sound.wav",
@@ -94,7 +95,6 @@ var manifest = {
 			"msPerFrame" : 200,
 			"flip": "horizontal"
 		},
-
 		"elephant-blue-right" : {
 			"strip" : "assets/images/Blue_Running_Elephant_animation.png",
 			"frames" : 2,
@@ -190,6 +190,31 @@ var manifest = {
 			"strip" : "assets/images/Blue_Head_attack_Animation.png",
 			"frames" : 6,
 			"msPerFrame" : 100
+		},
+		"bg-title" : {
+			"strip" : "assets/images/Title_Screen.png",
+			"frames" : 1,
+			"msPerFrame" : 100
+		},
+		"title-logo" : {
+			"strip" : "assets/images/Logo.png",
+			"frames" : 1,
+			"msPerFrame" : 100
+		},
+		"bg-zen" : {
+			"strip" : "assets/images/Zen_finish.png",
+			"frames" : 1,
+			"msPerFrame" : 100
+		},
+		"bg-phoenix" : {
+			"strip" : "assets/images/Phoenix_finish.png",
+			"frames" : 1,
+			"msPerFrame" : 100
+		},
+		"bg-dragon" : {
+			"strip" : "assets/images/Dragon_finish.png",
+			"frames" : 1,
+			"msPerFrame" : 100
 		}
 	}
 };
@@ -215,26 +240,6 @@ function drawEnemy(context, drawable, color, debug){
 	}
 }
 
-// function drawAnimatedEnemy(context, drawable, debug){
-// 	if(debug){
-// 		context.strokeRect(drawable.x, drawable.y, drawable.width, drawable.height);
-// 	}
-// 	else{
-// 		drawable.draw(context);
-// 	}
-// }
-
-
-// function drawEntity(context, drawable, debug){
-// 	if(debug){
-// 		context.strokeRect(drawable.x, drawable.y, drawable.width, drawable.height);
-// 	}
-// 	else{
-// 	context.fillStyle = drawable.color;
-// 	context.fillRect(drawable.x, drawable.y, drawable.width, drawable.height);
-// 	}
-// }
-
 function drawAnimatedEntity(context, drawable, debug){
 	drawable.draw(context);
 	if(debug){
@@ -249,15 +254,35 @@ function generateScoreManager(){
 		blueCount: 0,
 		matchedCount: 0,
 		unmatchedCount: 0,
+		ending : "",
+		score : 0
 	};
 	manager.calcTotal = function(){
 		this.total = this.redCount + this.blueCount;
 	};
+	manager.calcEnding = function(){
+		if(this.matchedCount > this.unmatchedCount){
+			this.ending = "phoenix";
+		}
+		if(this.matchedCount < this.unmatchedCount){
+			this.ending = "dragon";
+		}
+		if(this.score === 0){
+			this.ending = "zen";
+		}
+	};
+
+	manager.calcScore = function(){
+		var matchedTotal = this.matchedCount * 100;
+		var unmatchedTotal = this.unmatchedCount * -100;
+		this.score = matchedTotal + unmatchedTotal;
+	};
+
 	return manager;
 }
 
 //code for eating enemies
-var devour = function(enemy, manager){
+var devour = function(enemy, manager, scene){
 	if(enemy.color === "red"){
 		manager.redCount++;
 		if(this.name === "left"){
@@ -277,18 +302,58 @@ var devour = function(enemy, manager){
 		}
 	}
 	manager.calcTotal();
-	console.log(manager);
+	manager.setStage();
+	manager.calcScore();
+	if(manager.total % 20 === 0){
+		//new level
+		//clear old enemies
+		scene.enemies = [];
+		scene.chickenBody.reset();
+		game.sounds.play("grow_cluck");
+		game.sounds.play("grow_sound");
+	}
+
+	if(manager.total % 20 === 10){
+		//half way through level
+		scene.chickenBody.morph();
+	}
+
+	//console.log(manager);
 };
 
 
-game.scenes.add("title", new Splat.Scene(canvas, function() {
+game.scenes.add("main", new Splat.Scene(canvas, function() {
 	// initialization
 	var scene = this;
 	scene.debug = false;
-
+	scene.attackSounds = ["attack1", "attack2", "attack3","attack4","attack5","attack6"];
 	scene.enemies = [];
 	scene.animatedEntities = [];
-	scene.score = generateScoreManager();
+	game.score = generateScoreManager();
+	game.score.setStage = function(){
+		if(this.total >= 20 && this.total < 40){
+			scene.stage = "rat";
+			scene.bgimage.sprite = game.animations.get("bg-2");
+		}
+		if(this.total >= 40 && this.total < 60){
+			scene.stage = "sheep";
+			scene.bgimage.sprite = game.animations.get("bg-3");
+		}
+		if(this.total >= 60 && this.total < 80){
+			scene.stage = "pony";
+			scene.bgimage.sprite = game.animations.get("bg-4");
+			scene.chickenBody.morph();
+		}
+		if(this.total >= 80){
+			scene.stage = "elephant";
+			scene.bgimage.sprite = game.animations.get("bg-5");
+		}
+		if(this.total >= 100){
+			game.sounds.stop("bgm1");
+			game.sounds.stop("elephant");
+			game.scenes.switchTo("credits");
+		}
+	};
 	scene.stages = ["beetle", "rat", "sheep" , "pony", "elephant"];
 	scene.currentStage = 0;
 	scene.stage = "beetle";
@@ -356,30 +421,42 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 	scene.leftKills = 0;
 	scene.rightKills = 0;
 	scene.totalKills = 0;
+	scene.init = 0;
 
 	scene.spawn = function (spawner) {
 		var enemy = new Splat.Entity(spawner.x, spawner.y , 30, 30);
 		enemy.color = randomColor();
 		enemy.direction = spawner.direction;
 		enemy.devouredBy = "";
+		enemy.mod = Math.floor(Math.random()*3);
 		scene.enemies.push(enemy);
 	};
 
-	scene.spawnAnimated = function (spawner) {
+	scene.spawnAnimated = function (spawner, color) {
 		var enemyType = scene.stage;
+		if(enemyType === "beetle"){
+			game.sounds.play("beetle");
+		}
+		if(enemyType === "sheep" || enemyType === "pony"){
+			game.sounds.stop("beetle");
+			game.sounds.play("pony");
+		}
+		if(enemyType === "elephant"){
+			game.sounds.stop("pony");
+			game.sounds.play("elephant");
+		}
 		var direction = "right";
-		var color = randomColor();
 		if(spawner.direction === -1){
 			direction = "left";
 		}
 
 		var sprite = game.animations.get(enemyType +"-"+ color +"-"+ direction);
-		console.log(sprite, enemyType +"-"+ color +"-"+ direction);
 		var offsets = scene.enemyAnimations[enemyType+"-"+direction];
 		var enemy = new Splat.AnimatedEntity(spawner.x, spawner.y, 30, 30, sprite.copy(), offsets.offx, offsets.offy);
 		enemy.color = color;
 		enemy.type = "animated";
 		enemy.direction = spawner.direction;
+		enemy.mod = Math.floor(Math.random()*3+1);
 		scene.enemies.push(enemy);
 	};
 
@@ -396,6 +473,7 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 	scene.leftHeadAttack = new Splat.AnimatedEntity(canvas.width/2 - 175, canvas.height-100, 100, 20, leftHeadIdle, 0, -400);
 
 	scene.leftHeadAttack.name = "left";
+	scene.leftHeadAttack.state = "idle";
 	scene.leftHeadAttack.devour = devour;
 	scene.leftHeadAttack.animations = {"idle": {
 											"image" : leftHeadIdle,
@@ -415,6 +493,10 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		this.sprite = this.animations.attack.image;
 		this.spriteOffsetX = this.animations.attack.offx;
 		this.spriteOffsetY = this.animations.attack.offy;
+		if(this.state === "idle"){
+			game.sounds.play(scene.attackSounds[Math.floor(Math.random() * scene.attackSounds.length)]);
+		}
+		this.state = "attack";
 	};
 	scene.leftHeadAttack.idle = function (){
 		this.sprite = this.animations.idle.image;
@@ -422,7 +504,6 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		this.spriteOffsetY = this.animations.idle.offy;
 	};
 	scene.leftHeadAttack.idleBig = function (){
-		console.log("fire");
 		this.sprite = this.animations.idleBig.image;
 		this.spriteOffsetX = this.animations.idleBig.offx;
 		this.spriteOffsetY = this.animations.idleBig.offy;	
@@ -430,6 +511,7 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 	
 	scene.rightHeadAttack = new Splat.AnimatedEntity(canvas.width/2 + 50, canvas.height-100, 100, 20, rightHeadIdle, -50 , -400);
 	scene.rightHeadAttack.name = "right";
+	scene.rightHeadAttack.state = "idle";
 	scene.rightHeadAttack.devour = devour;
 	scene.rightHeadAttack.animations = {"idle": {
 											"image" :rightHeadIdle,
@@ -449,6 +531,10 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		this.sprite = this.animations.attack.image;
 		this.spriteOffsetX = this.animations.attack.offx;
 		this.spriteOffsetY = this.animations.attack.offy;
+		if(this.state === "idle"){
+			game.sounds.play(scene.attackSounds[Math.floor(Math.random() * scene.attackSounds.length)]);
+		}
+		this.state = "attack";
 	};
 	scene.rightHeadAttack.idle = function (){
 		this.sprite = this.animations.idle.image;
@@ -481,13 +567,22 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		scene.leftHeadAttack.spriteOffsetY = scene.leftHeadAttack.animations.idleBig.offy;
 		scene.rightHeadAttack.spriteOffsetX = scene.rightHeadAttack.animations.idleBig.offx;
 		scene.rightHeadAttack.spriteOffsetY = scene.rightHeadAttack.animations.idleBig.offy;
-
-
+	};
+	scene.chickenBody.reset = function () {
+		this.sprite = this.animations.normal.image;
+		this.spriteOffsetX = this.animations.normal.offx;
+		this.spriteOffsetY = this.animations.normal.offy;
+		this.state="small";
+		scene.leftHeadAttack.spriteOffsetX = scene.leftHeadAttack.animations.idle.offx;
+		scene.leftHeadAttack.spriteOffsetY = scene.leftHeadAttack.animations.idle.offy;
+		scene.rightHeadAttack.spriteOffsetX = scene.rightHeadAttack.animations.idle.offx;
+		scene.rightHeadAttack.spriteOffsetY = scene.rightHeadAttack.animations.idle.offy;
 	};
 
 	scene.animatedEntities.push(scene.chickenBody);
 	scene.animatedEntities.push(scene.leftHeadAttack);
 	scene.animatedEntities.push(scene.rightHeadAttack);
+
 
 	//TIMERS!!!!
 	var attackTimerLeft = new Splat.Timer(null, 600, function(){
@@ -497,6 +592,7 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		if(scene.chickenBody.state === "big"){
 			scene.leftHeadAttack.idleBig();
 		}
+		scene.leftHeadAttack.state="idle";
 		this.reset();
 	});
 
@@ -507,16 +603,76 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		if(scene.chickenBody.state === "big"){
 			scene.rightHeadAttack.idleBig();
 		}
+		scene.rightHeadAttack.state="idle";
+		this.reset();
+	});
+	var spawnTimer = new Splat.Timer(null, 1050, function(){
+		//scene.spawnAnimated(scene.leftSpawner, "red");
+		//scene.spawnAnimated(scene.rightSpawner, "blue");
+		scene.spawnAnimated(scene.randomSpawner(), randomColor());
+		this.reset();
+		this.start();
+	});
+	var peckSoundTimer = new Splat.Timer(null, 100, function(){
+		game.sounds.play("peck");
 		this.reset();
 	});
 
 	scene.timers.leftAttack = attackTimerLeft;
 	scene.timers.rightAttack = attackTimerRight;
+	scene.timers.spawnTimer = spawnTimer;
+	scene.timers.peckSoundTimer = peckSoundTimer;
+	scene.timers.timeLimit = new Splat.Timer( undefined, 1000, function(){
+    	scene.decrementSecond();
+    	this.reset();
+    	this.start();
+  	});
+  	scene.timers.timeLimit.start();
+
+  	scene.decrementSecond = function(){
+    var min = game.time.minute;
+    var second1 = game.time.second1;
+    var second2 = game.time.second2;
+
+    second2 --;
+
+    if (second2 < 0){
+      second1 --;
+      second2 = 9;
+    }
+    if (second1 < 0){
+      min --;
+      second1 = 5;
+    }
+    game.time.minute = min;
+    game.time.second1 = second1;
+    game.time.second2 = second2;
+  };
+
+  game.time = {};
+  // game.time.minute = 1;
+  // game.time.second1 = 5;
+  // game.time.second2 = 9;
+  	game.time.minute = 0;
+	game.time.second1 = 0;
+	game.time.second2 = 10;
 
 }, function(ellapsedMillis) {
 	// simulation
 	var scene = this;
 
+	//init
+	if (scene.init === 0){
+		scene.init = 1;
+		scene.timers.spawnTimer.start();
+		game.sounds.play("bgm1",true);
+	}
+
+	if(game.time.minute === 0 && game.time.second1 === 0 && game.time.second2 ===0){
+		game.sounds.stop("bgm1");
+		game.sounds.stop("elephant");
+		game.scenes.switchTo("credits");
+	}
 
 //Developer functions
 	if (game.keyboard.isPressed("1")){
@@ -525,12 +681,6 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		}else{
 			scene.debug = true;
 		}
-	}
-
-	if (game.keyboard.consumePressed("q")){
-		var spawner = scene.randomSpawner();
-		//scene.spawn(spawner);
-		scene.spawnAnimated(spawner);
 	}
 
 	if (game.keyboard.consumePressed("2")){
@@ -547,32 +697,23 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 
 // end developer functions
 
-	if (game.keyboard.isPressed("w")){
+	if (game.keyboard.consumePressed("w")){
 		scene.leftHeadAttack.color = "green";
-		scene.leftHeadAttack.state = "attack";
 		scene.leftHeadAttack.attack();
 		scene.timers.leftAttack.start();
-	}
-	else{
-		scene.leftHeadAttack.color = "red";
-		scene.leftHeadAttack.state = "idle";
+		scene.timers.peckSoundTimer.start();
 	}
 
-	if (game.keyboard.isPressed("e")){
+	if (game.keyboard.consumePressed("e")){
 		scene.rightHeadAttack.color = "green";
-		scene.rightHeadAttack.state = "attack";
 		scene.rightHeadAttack.attack();
 		scene.timers.rightAttack.start();
+		scene.timers.peckSoundTimer.start();
 	}
-	else{
-		scene.rightHeadAttack.color = "blue";
-		scene.rightHeadAttack.state = "idle";
-	}
-
 
 	//enemy management
 	for(var x = 0; x < scene.enemies.length; x++){
-		scene.enemies[x].x += scene.enemies[x].direction;
+		scene.enemies[x].x += scene.enemies[x].direction * scene.enemies[x].mod;
 		//left side enemy management
 		if(scene.enemies[x] && scene.enemies[x].x < -20){
 			this.enemies.splice(x,1);
@@ -588,8 +729,8 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 		      scene.leftHeadAttack.state==="attack" && 
 		      scene.leftHeadAttack.sprite.frame === 1))) {
 			
-			//register a devour and note which color eaten
-			scene.leftHeadAttack.devour(scene.enemies[x], scene.score);
+
+			scene.leftHeadAttack.devour(scene.enemies[x], game.score, scene);
 			scene.enemies.splice(x,1);
 		}	
 
@@ -599,7 +740,7 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 			  scene.rightHeadAttack.state==="attack" &&
 			  scene.rightHeadAttack.sprite.frame === 1))){
 
-			scene.rightHeadAttack.devour(scene.enemies[x], scene.score);
+			scene.rightHeadAttack.devour(scene.enemies[x], game.score, scene);
 			scene.enemies.splice(x,1);
 		}
 	}
@@ -635,7 +776,111 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 	for(x = 0; x < scene.enemies.length;  x++){
 		drawEnemy(context, scene.enemies[x], scene.enemies[x].color, scene.debug);
 	}
+	context.font = "bold 30px Arial";
+	context.fillText("Score :" + game.score.score, 0, 100);
+	context.fillText("Time : " + game.time.minute + " : "+game.time.second1+""+game.time.second2, canvas.width - 200 , 100);
 
+}));
+
+game.scenes.add("title", new Splat.Scene(canvas, function() {
+	// initialization
+	var scene = this;
+	var titleBg = game.animations.get("bg-title");
+	var title = new Splat.AnimatedEntity(0,0,canvas.width, canvas.height, titleBg, 0,0);
+
+	var logo = game.animations.get("title-logo");
+	var logoObj = new Splat.AnimatedEntity(0,canvas.height - 400,0,0,logo,0,0);
+
+	scene.title = title;
+	scene.logo = logoObj;
+	scene.init = 0;
+}, function (){
+	//simulation
+	var scene = this;
+	if(scene.init === 0){
+		game.sounds.play("bgm2", true);
+		scene.init = 1;
+	}
+	if(game.keyboard.consumePressed("w")){
+		game.scenes.switchTo("main");
+		game.sounds.stop("bgm2");
+	}
+	if(game.keyboard.consumePressed("e")){
+		game.scenes.switchTo("main");
+		game.sounds.stop("bgm2");
+	}
+}, function(context){
+	//draw
+	var scene = this;
+	scene.title.draw(context);
+	scene.logo.draw(context);
+	context.fillStyle = "#f00";
+  	context.font = "bold 30px Courier";
+  	context.fillText("Controls:", canvas.width - 300, 80);
+  	context.fillText("W - Left Head", canvas.width - 300, 112);
+  	context.fillText("E - Right Head", canvas.width - 300, 144);
+}));
+
+
+
+
+game.scenes.add("credits", new Splat.Scene(canvas, function(){
+	//initialization
+	var scene = this;
+	var zen = game.animations.get("bg-zen");
+	var zenEnding = new Splat.AnimatedEntity(0,0,canvas.width,canvas.height,zen,0,0);
+	var phoenix = game.animations.get("bg-phoenix");
+	var phoenixEnding = new Splat.AnimatedEntity(0,0,canvas.width,canvas.height,phoenix,0,0);
+
+	var dragon = game.animations.get("bg-dragon");
+	var dragonEnding = new Splat.AnimatedEntity(0,0,canvas.width,canvas.height,dragon, 0,0);
+
+	scene.zenEnding = zenEnding;
+	scene.phoenixEnding = phoenixEnding;
+	scene.dragonEnding = dragonEnding;
+	game.score.calcEnding();
+
+
+}, function (){
+	//simulation
+	if(game.keyboard.consumePressed("w")){
+		game.scenes.switchTo("title");
+	}
+	if(game.keyboard.consumePressed("e")){
+		game.scenes.switchTo("title");
+	}
+
+}, function (context){
+	//draw
+	var scene = this;
+	if(game.score.ending === "zen"){
+		scene.zenEnding.draw(context);
+		context.fillStyle = "black";
+	context.font = "bold 30px Courier";
+	context.fillText("Score: "+game.score.score, 0 , 100);
+	context.fillText("Credits:", 100, canvas.height - 120);
+	context.fillText("Connan Bell - Art and Sound", 100, canvas.height - 80); 
+	context.fillText("Rex Soriano @LoLo_R - Programming", 100, canvas.height - 40);
+	}
+	if(game.score.ending === "phoenix"){
+		scene.phoenixEnding.draw(context);
+		context.fillStyle = "black";
+		context.font = "bold 30px Courier";
+		context.fillText("Score: "+game.score.score, canvas.width - 500 , 50);
+		context.fillText("Credits:", canvas.width - 600, canvas.height - 94);
+		context.fillText("Connan Bell - Art and Sound", canvas.width - 600, canvas.height - 62); 
+		context.fillText("Rex Soriano @LoLo_R - Programming", canvas.width - 600, canvas.height - 30);
+	}
+	if(game.score.ending === "dragon"){
+		scene.dragonEnding.draw(context);
+		context.fillStyle = "black";
+		context.font = "bold 30px Courier";
+		context.fillText("Score: "+game.score.score, 0 , 100);
+		context.fillText("Credits:", 20, canvas.height - 94);
+		context.fillText("Connan Bell - Art and Sound", 20, canvas.height - 62); 
+		context.fillText("Rex Soriano @LoLo_R - Programming", 20, canvas.height -30);
+	}
+	
 }));
 
 game.scenes.switchTo("loading");
